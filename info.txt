@@ -17,6 +17,21 @@ storing configuration in the environment separate from code is based on the twel
 
 9- after create the file .env , env-sample and .gitignore
 
-10 under terminal execute command - pwd and  - git init
+10 - we should install git.exe file before following command
 
-11- 
+11 under terminal execute command - pwd and  - git init
+
+12- git config --global user.email "you@example.com" - git config --global user.email "mehrdad.raz@gmail.com"
+
+13- git config --global user.name "Your Name"  - git config --global user.name "mehrdad-162" 
+
+12- then we should run - git add . ( dot . that means all files everything) 
+
+13- then we should run git commit -m "this is the code for weather"
+
+14- create new repositiory in the github
+
+15 -for the modification in the GITHUB do the following:
+   15.1 git add .
+   15.2 git commit -m "Port from enviroment variable"
+   15.3 git push origin master

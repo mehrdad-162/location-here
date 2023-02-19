@@ -4,9 +4,11 @@ const express = require("express");
 const { response, request } = require("express");
 
 const app = express();
+
+const port = process.env.PORT || 4000;
 // pick port and callback function
-app.listen(4000, () => {
-  console.log("listening at the 4000");
+app.listen(port, () => {
+  console.log(`server listening at ${port} or 4000`);
 });
 
 // use express to host static file
