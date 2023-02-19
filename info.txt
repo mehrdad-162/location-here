@@ -32,8 +32,16 @@ storing configuration in the environment separate from code is based on the twel
 14- create new repositiory in the github
 
 15- to add the project we should follow the following:
-    15.1 - 
+    15.1 - git init
+    15.2 - git add .
+    15.3 - git commit -m "first commit"
+    15.4 - git remote add origin https://github.com/mehrdad-162/location-here.git
+    15.5 - git push -u origin main
+
+
 15 -for the modification in the GITHUB do the following:
    15.1 git add .
-   15.2 git commit -m "Port from enviroment variable"
+   15.2 git commit -m "second"
+   15.3 git remote add origin https://github.com/mehrdad-162/location-here.git
+   15.4 - git push -u origin main
    15.3 git push origin master
