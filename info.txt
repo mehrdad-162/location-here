@@ -1,0 +1,22 @@
+1- npm init  => Generate Package.json 
+
+2- npm install express  => Generate node_modules folder & package_lock.json
+
+3- npm install nedb --save
+
+4- Navigator MDN Document
+
+5- under expressjs.com we should add rout method and add the command of post to the index.js
+
+6- install node monitor module - npm install -g nodemon
+
+7- Install the database   - npm install nedb
+
+8- Install dotenv  for loading enviromental variables from a file name .env into process.env  - npm install dotenv
+storing configuration in the environment separate from code is based on the twelve-Factor App Methoology
+
+9- after create the file .env , env-sample and .gitignore
+
+10 under terminal execute command - pwd and  - git init
+
+11- 

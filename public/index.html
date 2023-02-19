@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Geo_Location Position Document</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""
+    ></script>
+    <style>
+      #map {
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>this is a node.js and listening for weather Forecast</h1>
+    <!-- View the HTML Pages -->
+    <a href="index.html">Checkin</a>
+    |
+    <a href="ViewCheckin.html">View Check in web page</a>
+
+    <p>
+      <span id="lat"></span>&deg;<br />
+      <span id="lon"></span>&#176;
+    </p>
+
+    <label for="mood">Your mood: </label>
+    <input id="mood" />
+    <button id="submit">Check in your Location</button>
+    <br />
+    <br />
+    <div id="map"></div>
+
+    <script>
+      // Making the map
+      const map = L.map("map").setView([0, 0], 1);
+
+      // Making Tile
+      // two way is written for map
+      const attribution =
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+
+      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      const tiles = L.tileLayer(tileUrl, { attribution });
+      tiles.addTo(map);
+
+      const marker = L.marker([0, 0]).addTo(map);
+
+      var popup = L.popup();
+      function onMapClick(e) {
+        popup
+          .setLatLng(e.latlng)
+          .setContent("You clicked the map at " + e.latlng.toString())
+          .openOn(map);
+      }
+
+      const button = document.getElementById("submit");
+      button.addEventListener("click", async (event) => {
+        // Test Geolocation is available
+        if ("geolocation" in navigator) {
+          /* geolocation is available */
+          console.log("geolocation is available");
+          // debugger;
+
+          // to have geolocation coordination function
+          // navigator document under MDN Web Doc
+          navigator.geolocation.getCurrentPosition(async (position) => {
+            console.log(position.coords.latitude, position.coords.longitude);
+            console.log(position);
+            console.log(position);
+            console.log(position.coords);
+            const lat = position.coords.latitude;
+            document.getElementById("lat").textContent =
+              "Latitude: " + "  " + lat;
+            const lon = position.coords.longitude;
+            document.getElementById("lon").innerText =
+              "Longitude: " + "  " + lon;
+            // make an object with {} and not with []
+            const data = { lat, lon };
+
+            console.log("My Data:", data);
+            // set the marker at the coordination of our position
+            marker.setLatLng(data);
+
+            // add mood to the database
+            const mood = document.getElementById("mood").value;
+            const datamood = { lat, lon, mood };
+
+            // set the map by zoom 15
+            map.setView(data, 14);
+            // making circle on the map at the coordination
+            var circle = L.circle(data, {
+              color: "lightred",
+              fillColor: "#f03",
+              fillOpacity: 0.5,
+              radius: 100,
+            }).addTo(map);
+
+            //send the information thru fetch function
+            const options = {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              // data to be sending in string and inform of JSON
+              body: JSON.stringify(datamood),
+            };
+
+            // Method one for receiving data from server side
+            //send the information thru fetch function and receive the response back from the server thru the .then and call back function and element response
+            fetch("/api", options)
+              .then((response) => {
+                console.log("This is the response from Server: ", response);
+                response.json();
+              })
+              .then((response) => {
+                console.log(
+                  "new data receive from server: ",
+                  data,
+                  data.lat,
+                  data.lon,
+                  data.mood
+                );
+              });
+
+            // // method two for receiving the data from server side
+            // const response = await fetch("/api", options);
+            // const datajson = await response.json();
+            // console.log("The information receive from server: ", datajson);
+            // console.log(
+            //   "this is the array information of info: ",
+            //   datajson.info,
+            //   "Latitude: ",
+            //   datajson.info[0],
+            //   "Longitude: ",
+            //   datajson.info[1]
+            // );
+            // //
+          });
+
+          // Map Coordinate as alter box
+          map.on("click", onMapClick);
+        } else {
+          /* geolocation IS NOT available */
+          console.log("geolocation not available");
+        }
+      });
+    </script>
+  </body>
+</html>

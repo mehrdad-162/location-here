@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewCheckin web page Document</title>
+  </head>
+  <body>
+    <h1>This is the new page</h1>
+    <script>
+      // call function
+      getdata();
+
+      // get data from server
+      async function getdata() {
+        const response = await fetch("/api");
+        const data = await response.json();
+
+        data.forEach((element) => {
+          // read the data
+          const root = document.createElement("p");
+          const lat = document.createElement("div");
+          const lon = document.createElement("div");
+          const mood = document.createElement("div");
+
+          lat.textContent = `Latitude:  ${element.lat}`;
+          lon.textContent = `Longitude: ${element.lon}`;
+          mood.textContent = `Mood:  ${element.mood}`;
+
+          root.append(lat, lon, mood);
+          document.body.append(root);
+        });
+
+        console.log("the information receive from server", data);
+      }
+    </script>
+  </body>
+</html>
