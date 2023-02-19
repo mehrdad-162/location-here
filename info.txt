@@ -31,6 +31,8 @@ storing configuration in the environment separate from code is based on the twel
 
 14- create new repositiory in the github
 
+15- to add the project we should follow the following:
+    15.1 - 
 15 -for the modification in the GITHUB do the following:
    15.1 git add .
    15.2 git commit -m "Port from enviroment variable"
