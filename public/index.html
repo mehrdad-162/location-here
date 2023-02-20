@@ -117,36 +117,36 @@
               body: JSON.stringify(datamood),
             };
 
-            // Method one for receiving data from server side
-            //send the information thru fetch function and receive the response back from the server thru the .then and call back function and element response
-            fetch("/api", options)
-              .then((response) => {
-                console.log("This is the response from Server: ", response);
-                response.json();
-              })
-              .then((response) => {
-                console.log(
-                  "new data receive from server: ",
-                  data,
-                  data.lat,
-                  data.lon,
-                  data.mood
-                );
-              });
+            // // Method one for receiving data from server side
+            // //send the information thru fetch function and receive the response back from the server thru the .then and call back function and element response
+            // fetch("/api", options)
+            //   .then((response) => {
+            //     console.log("This is the response from Server: ", response);
+            //     response.json();
+            //   })
+            //   .then((response) => {
+            //     console.log(
+            //       "new data receive from server: ",
+            //       data,
+            //       data.lat,
+            //       data.lon,
+            //       data.mood
+            //     );
+            //   });
 
-            // // method two for receiving the data from server side
-            // const response = await fetch("/api", options);
-            // const datajson = await response.json();
-            // console.log("The information receive from server: ", datajson);
-            // console.log(
-            //   "this is the array information of info: ",
-            //   datajson.info,
-            //   "Latitude: ",
-            //   datajson.info[0],
-            //   "Longitude: ",
-            //   datajson.info[1]
-            // );
-            // //
+            // method two for receiving the data from server side
+            const response = await fetch("/api", options);
+            const datajson = await response.json();
+            console.log("The information receive from server: ", datajson);
+            console.log(
+              "this is the array information of info: ",
+              datajson.info,
+              "Latitude: ",
+              datajson.info[0],
+              "Longitude: ",
+              datajson.info[1]
+            );
+            //
           });
 
           // Map Coordinate as alter box

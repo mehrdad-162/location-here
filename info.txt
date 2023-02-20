@@ -44,4 +44,112 @@ storing configuration in the environment separate from code is based on the twel
    15.2 git commit -m "second commit"
    15.3 git remote add origin https://github.com/mehrdad-162/location-here.git
    15.4 - git push -u origin main
+
+   16- Send the information to server
+    16.1  //send the information thru fetch function
+            const options = {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              // data to be sending in string and inform of JSON
+              body: JSON.stringify(datamood),
+            };
+
+    16.2  // Method one for receiving data from server side
+            //send the information thru fetch function and receive the response back from the server thru the .then and call back function and element response
+            fetch("/api", options)
+              .then((response) => {
+                console.log("This is the response from Server: ", response);
+                response.json();
+              })
+              .then((response) => {
+                console.log(
+                  "new data receive from server: ",
+                  data,
+                  data.lat,
+                  data.lon,
+                  data.mood
+                );
+              });
+
+    16.3     // method two for receiving the data from server side
+            const response = await fetch("/api", options);
+            const datajson = await response.json();
+            console.log("The information receive from server: ", datajson);
+            console.log(
+              "this is the array information of info: ",
+              datajson.info,
+              "Latitude: ",
+              datajson.info[0],
+              "Longitude: ",
+              datajson.info[1]
+            );
+            //
   
+17  -  app.use(express.json({ limit: "1mb" }));
+
+    -  app.post("/api", (request, response) => {
+        console.log("I got a request!");
+        // console.log(request);
+        console.log("This is the information receive from Client", request.body);
+        // console.log(response);
+
+        // define the request body of information
+        const data = request.body;
+
+        //
+        database.push(data);
+        console.log("Coordination Database: ", database);
+        //
+
+        console.log("index.js receive the Data: ", data);
+        nedatabase.insert(data);
+
+        // as we said the send back that the information receive from client
+        response.json({
+            status: "success",
+            // or we can say request.body.lat or request.body.lon
+            info: data,
+            latitude: data.lat,
+            longitude: data.lon,
+            mood: data.mood,
+        });
+        });
+
+18    - // get data
+        app.get("/api", (request, response) => {
+        nedatabase.find({}, (err, data) => {
+            if (err) {
+            console.log(err);
+            } else {
+            response.json(data);
+            }
+        });
+        });
+
+19 -  // call function
+      getdata();
+
+      // get data from server
+      async function getdata() {
+        const response = await fetch("/api");
+        const data = await response.json();
+
+        data.forEach((element) => {
+          // read the data
+          const root = document.createElement("p");
+          const lat = document.createElement("div");
+          const lon = document.createElement("div");
+          const mood = document.createElement("div");
+
+          lat.textContent = `Latitude:  ${element.lat}`;
+          lon.textContent = `Longitude: ${element.lon}`;
+          mood.textContent = `Mood:  ${element.mood}`;
+
+          root.append(lat, lon, mood);
+          document.body.append(root);
+        });
+
+        console.log("the information receive from server", data);
+      }
